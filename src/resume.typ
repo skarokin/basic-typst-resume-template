@@ -115,6 +115,11 @@
   // Main body.
   set par(justify: true)
 
+  set list(
+    body-indent: 0.5em,
+    spacing: 0.8em,
+  )
+
   body
 }
 
@@ -156,26 +161,14 @@
   degree: "",
   gpa: "",
   location: "",
-  // Makes dates on upper right like rest of components
-  consistent: false,
 ) = {
-  if consistent {
-    // edu-constant style (dates top-right, location bottom-right)
-    generic-two-by-two(
-      top-left: strong(institution),
-      top-right: dates,
-      bottom-left: emph(degree),
-      bottom-right: emph(location),
-    )
-  } else {
-    // original edu style (location top-right, dates bottom-right)
-    generic-two-by-two(
-      top-left: strong(institution),
-      top-right: location,
-      bottom-left: emph(degree),
-      bottom-right: emph(dates),
-    )
-  }
+  generic-two-by-two(
+    top-left: strong(institution),
+    top-right: dates,
+    bottom-left: degree,
+    bottom-right: emph(location),
+  )
+  v(-0.4em)
 }
 
 #let work(
@@ -185,35 +178,39 @@
   location: "",
 ) = {
   generic-two-by-two(
-    top-left: strong(title),
+    top-left: strong(company),
     top-right: dates,
-    bottom-left: company,
+    bottom-left: title,
     bottom-right: emph(location),
   )
+  v(-0.4em)
 }
 
 #let project(
-  role: "",
   name: "",
   url: "",
-  dates: "",
+  github: "",
+  tech-stack: ""
 ) = {
   generic-one-by-two(
     left: {
-      if role == "" {
-        [*#name* #if url != "" and dates != "" [ (#link("https://" + url)[#url])]]
-      } else {
-        [*#role*, #name #if url != "" and dates != ""  [ (#link("https://" + url)[#url])]]
-      }
+      [*#name* 
+        #if github != "" [
+          | #link("https://github.com/" + github)[GitHub]
+        ]
+        #if url != "" [
+          | #link("https://" + url)[#url]
+        ]
+      ]
     },
     right: {
-      if dates == "" and url != "" {
-        link("https://" + url)[#url]
-      } else {
-        dates
-      }
+      // empty for now, maybe would change my mind soon about formatting
     },
   )
+  if tech-stack != "" [
+    \ #tech-stack
+  ]
+  v(-0.4em)
 }
 
 #let certificates(
