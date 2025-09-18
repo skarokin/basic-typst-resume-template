@@ -75,7 +75,7 @@
   // Personal Info Helper
   let contact-item(value, prefix: "", link-type: "") = {
     if value != "" {
-      if type(value) == "content" {
+      if type(value) == content {
         // already link content, use it directly with prefix
         if prefix != "" {
           [#prefix#value]
