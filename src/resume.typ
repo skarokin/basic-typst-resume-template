@@ -75,10 +75,19 @@
   // Personal Info Helper
   let contact-item(value, prefix: "", link-type: "") = {
     if value != "" {
-      if link-type != "" {
+      if type(value) == "content" {
+        // already link content, use it directly with prefix
+        if prefix != "" {
+          [#prefix#value]
+        } else {
+          value
+        }
+      } else if link-type != "" {
+        // create link from string (existing behavior)
         link(link-type + value)[#(prefix + value)]
       } else {
-        value
+        // plain text
+        prefix + value
       }
     }
   }
